@@ -24,21 +24,19 @@ class DishDetailAPIView(generics.RetrieveAPIView):
 
 class DishCreateAPIView(generics.CreateAPIView):
     queryset = Dish.objects.all()
+    """ permission """
     serializer_class = DishSerializer
 
 
 class DishUpdateAPIView(generics.UpdateAPIView):
     queryset = Dish.objects.all()
+    """ permission """
     serializer_class = DishSerializer
 
 
 class DishDeleteAPIView(generics.DestroyAPIView):
     queryset = Dish.objects.all()
-    serializer_class = DishSerializer
-
-
-class RetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Dish.objects.all()
+    """ permission """
     serializer_class = DishSerializer
 
 

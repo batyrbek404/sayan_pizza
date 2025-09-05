@@ -6,3 +6,7 @@ from .serializers import TableBookingSerializer
 class TableBookingViewSet(viewsets.ModelViewSet):
     queryset = TableBooking.objects.all()
     serializer_class = TableBookingSerializer
+
+
+"""Распиши все методы для api отдельно, через ApiVIew и generics"""
+
