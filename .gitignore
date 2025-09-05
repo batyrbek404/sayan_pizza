@@ -5,3 +5,4 @@ venv
 __pycache/
 media
 main.py
+config/__pycache__/
