@@ -1,11 +1,7 @@
-# menu/urls.py
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import TableBookingViewSet
-
-router = DefaultRouter()
-router.register(r'bookings', TableBookingViewSet)
+from django.urls import path
+from .views import TableBookingListAPIView, TableBookingDetailAPIView
 
 urlpatterns = [
-    path('api/', include(router.urls)),
+    path('', TableBookingListAPIView.as_view(), name='booking-list'),
+    path('<int:pk>/', TableBookingDetailAPIView.as_view(), name='booking-detail'),
 ]
