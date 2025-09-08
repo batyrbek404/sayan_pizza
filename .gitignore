@@ -6,3 +6,7 @@ __pycache/
 media
 main.py
 config/__pycache__/
+menu/__pycache__/
+users/__pycache__/
+cart/__pycache__/
+booking/__pycache__/
