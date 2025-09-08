@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Dish, News, About  # <-- твои реальные модели
 
-# Register your models here.
+# Регистрируем модели в админке
+admin.site.register(Dish)
+admin.site.register(News)
+admin.site.register(About)
