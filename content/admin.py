@@ -1,11 +1,7 @@
 from django.contrib import admin
-from .models import Content
+from .models import Dish, News, About  # <-- твои реальные модели
 
-@admin.register(Content)
-class ContentAdmin(admin.ModelAdmin):
-    list_display = ('title', 'is_published', 'created_at')
-    list_filter = ('is_published', 'created_at')
-    search_fields = ('title', 'body')
-from django.contrib import admin
-
-# Register your models here.
+# Регистрируем модели в админке
+admin.site.register(Dish)
+admin.site.register(News)
+admin.site.register(About)

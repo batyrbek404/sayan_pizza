@@ -1,10 +1,15 @@
 from rest_framework import viewsets
-from .models import Content
-from .serializers import ContentSerializer
+from .models import Dish, News, About
+from .serializers import DishSerializer, NewsSerializer, AboutSerializer
 
-class ContentViewSet(viewsets.ModelViewSet):
-    queryset = Content.objects.all()
-    serializer_class = ContentSerializer
-from django.shortcuts import render
+class DishViewSet(viewsets.ModelViewSet):
+    queryset = Dish.objects.all()
+    serializer_class = DishSerializer
 
-# Create your views here.
+class NewsViewSet(viewsets.ModelViewSet):
+    queryset = News.objects.all().order_by('-created_at')
+    serializer_class = NewsSerializer
+
+class AboutViewSet(viewsets.ModelViewSet):
+    queryset = About.objects.all()
+    serializer_class = AboutSerializer
