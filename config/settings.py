@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'rest_framework_simplejwt',
-    'corsheaders'
+    'corsheaders',
 
     'users',
     'menu',
@@ -182,5 +182,5 @@ JAZZMIN_SETTINGS = {
 
 CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost", "http//localhost:8000", "http//localhost:3000"
+    "http://localhost", "http://localhost:8000", "http://localhost:3000"
 ]
