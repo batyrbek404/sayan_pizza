@@ -10,3 +10,6 @@ menu/__pycache__/
 users/__pycache__/
 cart/__pycache__/
 booking/__pycache__/
+__pycache__/
+*.pyc
+
