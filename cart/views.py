@@ -1,19 +1,28 @@
-from rest_framework import generics,permissions,status
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
-from .models import CartItem,Cart
+from .models import CartItem, Cart
 from menu.models import Dish
-from .serializers import  CartSerializer,CartItemSerializer
+from .serializers import CartSerializer, CartItemSerializer
 
 
+# Получение корзины
 class CartView(generics.RetrieveAPIView):
     serializer_class = CartSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        cart,created = Cart.objects.get_or_create(user=self.request.user)
+        cart, created = Cart.objects.get_or_create(user=self.request.user)
+        # пересчитываем delivery_price автоматически
+        if cart.items_total() > 2000:
+            cart.delivery_price = 0
+        else:
+            cart.delivery_price = 200
+        cart.save()
         return cart
 
+
+# Добавление блюда в корзину
 class AddToCartView(generics.CreateAPIView):
     serializer_class = CartItemSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -33,6 +42,15 @@ class AddToCartView(generics.CreateAPIView):
             item.save()
         serializer.instance = item
 
+        # пересчёт доставки
+        if cart.items_total() > 2000:
+            cart.delivery_price = 0
+        else:
+            cart.delivery_price = 200
+        cart.save()
+
+
+# Удаление блюда из корзины
 class RemoveFromCartView(generics.DestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = CartItem.objects.all()
@@ -43,6 +61,24 @@ class RemoveFromCartView(generics.DestroyAPIView):
         try:
             item = CartItem.objects.get(pk=item_id, cart=cart)
             item.delete()
+
+            # пересчёт доставки
+            if cart.items_total() > 2000:
+                cart.delivery_price = 0
+            else:
+                cart.delivery_price = 200
+            cart.save()
+
             return Response({'detail': 'Item removed'}, status=status.HTTP_204_NO_CONTENT)
         except CartItem.DoesNotExist:
             return Response({'detail': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Обновление данных корзины (телефон, адрес)
+class UpdateCartView(generics.UpdateAPIView):
+    serializer_class = CartSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        cart, _ = Cart.objects.get_or_create(user=self.request.user)
+        return cart

@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from .models import Cart, CartItem
 from menu.models import Dish
 
@@ -24,10 +23,8 @@ class CartItemSerializer(serializers.ModelSerializer):
         fields = ('id', 'quantity', 'dish', 'dish_id', 'total_price')
 
     def get_total_price(self, obj):
-        # Убедиться, что `obj` это экземпляр модели
         if isinstance(obj, CartItem):
             return obj.total_price()
-
         raise ValueError("Объект должен быть экземпляром модели CartItem")
 
 
@@ -35,10 +32,13 @@ class CartSerializer(serializers.ModelSerializer):
     items = CartItemSerializer(many=True, read_only=True)
     total_price = serializers.SerializerMethodField()
 
+    # новые поля для доставки
+    phone_number = serializers.CharField(required=False, allow_blank=True)
+    delivery_address = serializers.CharField(required=False, allow_blank=True)
+
     class Meta:
         model = Cart
-        fields = ('id', 'user', 'created_at', 'items', 'total_price')
+        fields = ('id', 'user', 'created_at', 'items', 'total_price', 'phone_number', 'delivery_address')
 
     def get_total_price(self, obj):
         return obj.total_price()
-
